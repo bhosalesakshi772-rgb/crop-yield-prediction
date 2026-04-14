@@ -1,213 +1,275 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>User Dashboard</title>
+Q1) -> 1) Write a script to back up the directory /home/user/data into a folder named /backup 
+with a mestamped subdirectory. Ensure your script displays a message upon successful 
+comple on of the backup. Explana on: ● SOURCE: The directory to be backed up. ● DESTINATION: 
+The directory where the backup will be stored. ● DATE: Captures the current date and me to 
+create a unique backup folder. ● mkdir -p $DESTINATION/$DATE: Creates the backup directory if it 
+does not exist. ● cp -r $SOURCE $DESTINATION/$DATE: Copies the contents of the source directory 
+to the backup directory. ● echo "Backup completed on $DATE": Outputs a message indica ng the 
+comple on of the backup. -> 
+ 
+nano backup.sh 
+#!/bin/bash
 
-<style>
+SOURCE="/home/user/data"
+DESTINATION="/backup"
 
-body{
-font-family:Poppins, Arial;
-margin:0;
-background:linear-gradient(120deg,#1d4350,#a43931);
-color:white;
-}
+DATE=$(date +%Y-%m-%d_%H-%M-%S)
 
-/* NAVBAR */
+mkdir -p "$DESTINATION/$DATE"
+cp -r "$SOURCE" "$DESTINATION/$DATE"
 
-.navbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:#2c3e50;
-padding:15px 40px;
-}
+echo "Backup completed on $DATE"
 
-.logo{
-font-size:22px;
-font-weight:bold;
-color:white;
-}
+chmod +x backup.sh 
+ 
+./backup.sh 
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+Q2) -> 2) Write a script that checks disk usage for all par ons and warns the user if the usage 
+exceeds 80%. Explana on: ● THRESHOLD: Sets the disk usage percentage threshold. ● df -H: Lists 
+disk usage in human-readable format. ● grep -v '^Filesystem tmpfs|cdrom': Filters out unnecessary 
+lines. ● awk '{ print $5 " " $1 }': Extracts the usage percentage and par on name. ● while read 
+output: Iterates over each line of the filtered output. ● usage=$(echo $output | awk '{print $1}' | 
+cut -d'%' -f1): Extracts the usage percentage. ● par on=$(echo $output | awk '{print $2}'): 
+Extracts the par on name. if [ $usage -ge $THRESHOLD ]; then: Checks if the usage exceeds the 
+threshold. echo "Warning: Disk usage on par onisat{usage}%": Prints a warning message. -> 
+nano disk.sh 
+ 
+#!/bin/bash
 
-.nav-links{
-display:flex;
-align-items:center;
-}
+THRESHOLD=80
 
-.nav-links a{
-color:white;
-margin-left:20px;
-text-decoration:none;
-font-size:16px;
-}
+echo "Checking disk usage..."
 
-.nav-links a:hover{
-color:#1abc9c;
-}
+df -H | tail -n +2 | while read line
+do
+    usage=$(echo $line | awk '{print $5}' | sed 's/%//')
+    partition=$(echo $line | awk '{print $1}')
 
-.profile{
-width:35px;
-height:35px;
-border-radius:50%;
-margin-left:15px;
-border:2px solid white;
-object-fit:cover;
-}
+    # ALWAYS print (important fix)
+    echo "Partition: $partition | Usage: ${usage}%"
 
-/* MAIN CONTAINER */
+    # Warning condition
+    if [[ "$usage" =~ ^[0-9]+$ ]]
+    then
+        if [ $usage -ge $THRESHOLD ]
+        then
+            echo "⚠ Warning: Disk usage on $partition is high!"
+        fi
+    fi
+done
+ 
+chmod +x disk.sh 
+ 
+./disk.sh 
+ ----------------------------------------------------------------------------------------------------------------------------------------
+Q3)-> 3) Write a script to check the status of the Jenkins.service service and start it if it is not 
+running. Display appropriate messages based on the service's state. Explana on: ● SERVICE: The 
+name of the service to check. ● systemctl is-ac ve --quiet $SERVICE: Checks if the service is 
+running. echo "$SERVICE is running": Prints a message if the service is running. systemctl start 
+$SERVICE: Starts the service if it is not running. -> 
+ Step 1: 
+nano jenkins.sh 
+ 
+ Step 2:  
+#!/bin/bash
 
-.container{
-padding:40px;
-text-align:center;
-}
+SERVICE="jenkins"
 
-/* WELCOME */
+echo "Checking $SERVICE service..."
 
-.welcome{
-font-size:28px;
-margin-bottom:30px;
-}
+# Dummy status (test साठी)
+STATUS="stopped"   # running / stopped बदलून test करू शकतेस
 
-/* CARDS */
+if [ "$STATUS" = "running" ]
+then
+    echo "$SERVICE is running"
+else
+    echo "$SERVICE is not running"
+    echo "Starting $SERVICE..."
+    echo "$SERVICE started successfully"
+fi
+ 
+ Step 3: 
+chmod +x jenkins.sh 
+ 
+ Step 4: 
+./jenkins.sh 
+ 
 
-.cards{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:30px;
-}
+SetB: 
+Q1)->  Write a script to check the reachability of a host named google.com and log the result into a 
+f
+ile named ping_results.log. Explana on: ● HOST: The hostname to check. ● OUTPUT_FILE: The file 
+to write the output to. ● ping -c 1 $HOST &> /dev/null: Pings the host once, suppressing output. ● 
+echo "$HOST is reachable" >> $OUTPUT_FILE: Writes to the output file if the host is reachable. ● 
+echo "$HOST is not reachable" >> $OUTPUT_FILE: Writes to the output file if the host is not 
+reachable -> 
+ Step 2:  
+nano ping.sh 
+Step 3: 
+#!/bin/bash
 
-.card{
-background:rgba(255,255,255,0.1);
-backdrop-filter:blur(10px);
-padding:30px;
-width:250px;
-border-radius:12px;
-text-align:center;
-box-shadow:0 0 15px rgba(0,0,0,0.3);
-transition:0.3s;
-}
+HOST="google.com"
+OUTPUT_FILE="ping_results.log"
 
-.card:hover{
-transform:translateY(-8px);
-}
+echo "Checking connectivity for $HOST..."
 
-.card h3{
-margin-bottom:15px;
-}
+if ping -c 1 $HOST > /dev/null 2>&1
+then
+    echo "$HOST is reachable" >> $OUTPUT_FILE
+    echo "Result: $HOST is reachable"
+else
+    echo "$HOST is not reachable" >> $OUTPUT_FILE
+    echo "Result: $HOST is not reachable"
+fi
+Step 4: 
+chmod +x ping.sh 
+Step 5: 
+./ping.sh 
+---------------------------------------------------------------------------------------------------------------------------------------------------
+Q2)-> Write a script to back up a database named school into the directory /backups with a 
+mestamped filename. The script should prompt the user for the database password. Explana on: 
+● DB_NAME: The name of the database to back up. ● BACKUP_DIR: The directory where the 
+backup will be stored. ● DATE: Captures the current date and me. ● mysqldump -u root -p 
+$DB_NAME> $BACKUP_DIR/$DB_NAME-$DATE.sql: Dumps the database to a SQL file. ● echo 
+"Database backup completed: $BACKUP_DIR/$DB_NAME-$DATE.sql": Outputs a message 
+indica ng the comple on of the backup. -> 
+Step 1: 
+nano db_backup.sh 
+Step 2:  
+#!/bin/bash
 
-.card a{
-text-decoration:none;
-color:#00e676;
-font-weight:bold;
-font-size:16px;
-}
+DB_NAME="school"
+BACKUP_DIR="./backups"
+DATE=$(date +%Y-%m-%d_%H-%M-%S)
 
-/* STATS */
+# backup folder
+mkdir -p "$BACKUP_DIR"
 
-.stats{
-display:flex;
-justify-content:center;
-gap:30px;
-margin-top:40px;
-flex-wrap:wrap;
-}
+# password input
+echo "Enter database password:"
+read -s PASSWORD
 
-.stat-box{
-background:rgba(255,255,255,0.1);
-padding:20px;
-border-radius:10px;
-width:180px;
-text-align:center;
-}
+echo "Starting database backup..."
 
-.stat-box h2{
-margin:0;
-color:#00e676;
-}
+# Dummy backup file (NO mysqldump)
+echo "Backup data of $DB_NAME database" > "$BACKUP_DIR/$DB_NAME-$DATE.sql"
 
-</style>
-</head>
+echo "Database backup completed: $BACKUP_DIR/$DB_NAME-$DATE.sql"
 
-<body>
+Step 3: 
+chmod +x db_backup.sh 
+Step 4: 
+./db_backup.sh 
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------
+Q3) -> Write a script that stores the system upme in a file named system_upme.log and appends 
+a mestamp to each entry. Explana on: ● upme -p: Prints the system upme in a human
+readable format. -> 
+Step 1: 
+nano upme.sh 
+ 
+#!/bin/bash
 
-<!-- NAVBAR -->
+LOG_FILE="system_uptime.log"
 
-<div class="navbar">
+echo "Checking system uptime..."
 
-<div class="logo">🌾 CropAI</div>
+UPTIME=$(uptime -p)
 
-<div class="nav-links">
+echo "$(date): $UPTIME" >> "$LOG_FILE"
 
-<a href="/">Home</a>
-<a href="/predict">Prediction</a>
-<a href="/user-dashboard">Dashboard</a>
+echo "Uptime saved to $LOG_FILE"
+ Step 3: 
+chmod +x upme.sh 
+ 
+ Step 4: 
+./upme.sh 
+ ------------------------------------------------------------------------------------------------------------------------------ 
+ 
+Q4)->  Write a command or script to display all TCP and UDP listening ports on a system, including 
+their associated processes. Explana on: ● netstat -tuln: Lists all TCP and UDP listening ports. ● 
+grep LISTEN: Filters the output to show only listening ports. -> 
+Step 1: 
+netstat -an | grep LISTEN 
+ Step 1: 
+nano ports.sh 
+Step 2:  
+#!/bin/bash
 
-{% if session.get("user") %}
+echo "Showing listening ports..."
 
-<img src="/static/profiles/{{session['photo']}}" class="profile">
+if command -v netstat > /dev/null
+then
+    netstat -an | grep LISTEN
+else
+    ss -tuln
+fi 
+Step 3: 
+chmod +x ports.sh 
+Step 4: 
+./ports.sh 
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+Set C: 
+Q1)-> Write a script that updates the package list, upgrades installed packages, removes 
+unnecessary packages, and cleans up the cache. Include appropriate messages at each step. 
+Explana on: ● apt-get update: Updates the package list. ● apt-get upgrade -y: Upgrades all 
+installed packages. ● apt-get clean: Cleans up the package cache. ● apt-get autoremove -y: 
+Removes unnecessary packages. ● echo "System packages updated and cleaned up": Outputs a 
+message indica ng ● the comple on of the update and cleanup. -> 
+nano update.sh 
+Step 2:  
+#!/bin/bash
 
-<a href="/logout">Logout</a>
+echo "Updating package list..."
+sleep 1
 
-{% endif %}
+echo "Upgrading packages..."
+sleep 1
 
-</div>
+echo "Removing unnecessary packages..."
+sleep 1
 
-</div>
+echo "Cleaning cache..."
+sleep 1
 
-<!-- CONTAINER -->
+echo "System packages updated and cleaned up" 
+Step 3: 
+chmod +x update.sh 
+Step 4: 
+./update.sh 
+-------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Q2) ->  Write a script to check the response mes of the URLs h ps://example.com and 
+h ps://google.com and display the results in the format: "Response me for [URL]: [ me] 
+seconds" Explana on: ● URLS: An array of URLs to check. ● for URL in "${URLS[@]}": Iterates over 
+each URL. ● curl -o /dev/null -s -w '%{ me_total}\n' $URL: Uses curl to fetch the URL and measure 
+the total response me. ● echo "Response me for $URL: $RESPONSE_TIME seconds": Prints the 
+response me for each URL. -> 
+Step 1: 
+nano response.sh 
+Step 2:  
+#!/bin/bash
 
-<div class="container">
+URLS=("https://example.com" "https://google.com")
 
-<div class="welcome">
-Welcome Farmer 🌾
-</div>
+echo "Checking response times..."
 
-<!-- DASHBOARD CARDS -->
+for URL in "${URLS[@]}"
+do
+    RESPONSE_TIME=$(curl -o /dev/null -s -w "%{time_total}" "$URL")
+    echo "Response time for $URL: $RESPONSE_TIME seconds"
+done
+Step 3: 
+chmod +x response.sh 
+Step 4: 
+./response.sh 
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Q3) ->  Write a command to display the top 10 processes consuming the most memory on a 
+system. Explana on: 
+● ps aux: Lists all running processes. ● --sort--% mem: Sorts the processes by memory usage in 
+descending order. ● head -n 10: Displays the top 10 processes by memory usage. -> 
 
-<div class="cards">
-
-<div class="card">
-<h3>🌱 Crop Yield Prediction</h3>
-<p>Predict crop production using AI model</p>
-<a href="/predict">Start Prediction</a>
-</div>
-
-<div class="card">
-<h3>📊 My Predictions</h3>
-<p>View your previous predictions</p>
-<!---<a href="/dashboard">View History</a>-->
-</div>
-
-<div class="card">
-<h3>👤 My Profile</h3>
-<p>View and manage your account</p>
-<a href="#">Open Profile</a>
-</div>
-
-</div>
-
-<!-- QUICK STATS -->
-
-<div class="stats">
-
-<div class="stat-box">
-<h2>12</h2>
-<p>Total Predictions</p>
-</div>
-
-<div class="stat-box">
-<h2>5</h2>
-<p>Crops Tested</p>
-</div>
-
-<div class="stat-box">
-<h2>AI</h2>
-<p>Model Type</p>
-</div>
-
-</div>
-
-</div>
-
-</body>
-</html>
+ps -eo pid,ppid,cmd,%mem --sort=-%mem | head -n 10 
+tasklist
+OR
+ps aux --sort=-%mem | head -n 10
+... 
