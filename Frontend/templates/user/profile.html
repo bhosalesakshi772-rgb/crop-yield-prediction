@@ -1,28 +1,29 @@
 Set A  
 1) Write a shell script to display the current date and time, the name of the logged-in user, and the 
-name of the shell being used. ->Step 1: File create कर 
-Ubuntu / Git Bash: 
+name of the shell being used. ->
 nano info.sh 
-Step 2: Code paste कर 
+Step 2: Code paste
 #!/bin/bash 
 echo "Current Date and Time: $(date)" 
 echo "Logged-in User: $USER" 
 echo "Shell in use: $SHELL" 
-Step 3: Executable बनव 
+Step 3: Executable  
 chmod +x info.sh 
-Step 4: Run कर 
+Step 4: Run 
 ./info.sh 
+---------------------------------------------------------------------------------------------------------------------------------------------------
 2) Create a shell script to generate a multiplication table (1 to 10) for numbers from 1 to 5 using 
-nested loops. Save the output to a file and display the file contents. ->Step 1: File create 
+nested loops. Save the output to a file and display the file contents. ->
+Step 1: File create 
 nano table.sh 
 Step 2: Code 
 #!/bin/bash 
 for i in {1..5} 
 do 
-for j in {1..10} 
-do 
-echo "$i x $j = $((i*j))" 
-done 
+ for j in {1..10} 
+ do 
+ echo "$i x $j = $((i*j))" 
+ done 
 echo "-----------" 
 done > table.txt 
 cat table.txt 
@@ -30,9 +31,11 @@ Step 3: Permission
 chmod +x table.sh 
 Step 4: Run 
 ./table.sh 
+------------------------------------------------------------------------------------------------------------------------------------------------
 3) Write a script that recursively searches for all .txt files in a directory and its subdirectories. For 
 each file, count the number of lines containing the word "error" and append the file name and count 
-to a report file. -> Step 1: File create 
+to a report file. -> 
+Step 1: File create 
 nano search.sh 
 Step 2: Code 
 #!/bin/bash 
@@ -46,15 +49,16 @@ cat report.txt
 Step 3: Permission 
 chmod +x search.sh 
 Step 4: Run 
-./search.sh 
+./search.sh
+-------------------------------------------------------------------------------------------------------------------------------
 Set B 
 4) Develop a script that accepts a hostname or IP address as input and checks its network availability 
 using ping. If reachable, append a success message to /home/$USERNAME/$filename with a 
 t
 imestamp; otherwise, append a failure message -> 
-Step 1: file create कर 
+Step 1: file create 
 nano netcheck.sh 
-Step 2: code paste कर 
+Step 2: code paste 
 #!/bin/bash 
 read -p "Enter hostname or IP: " host 
 f
@@ -70,11 +74,13 @@ Step 3: executable बनव
 chmod +x netcheck.sh 
 Step 4: run कर 
 ./netcheck.sh 
+-------------------------------------------------------------------------------------------------------------------------------
 . 5) Write a script to monitor CPU usage using the top command. The script should run for a specified 
 number of iterations and log the CPU usage in each iteration. Use continue to skip logging if CPU 
-usage is below 10% and break if CPU usage exceeds 90%.  ->Step 1: File create कर 
+usage is below 10% and break if CPU usage exceeds 90%.  -
+Step 1: File create 
 nano cpu.sh 
-Step 2: Code paste कर 
+Step 2: Code paste  
 #!/bin/bash 
 for i in {1..10} 
 do 
@@ -92,15 +98,16 @@ echo "CPU usage: $cpu%" >> cpu_log.txt
 sleep 1 
 done 
 cat cpu_log.txt 
-Step 3: Executable बनव 
+Step 3: Executable 
 chmod +x cpu.sh 
-Step 4: Run कर 
+Step 4: Run 
 ./cpu.sh 
+----------------------------------------------------------------------------------------------------------------------------------------
 6) Write a script that processes a log file to extract and display IP addresses, date-time stamps, and 
 error messages using regular expressions. Validate that only properly formatted IP addresses are 
-extracted ->Step 1: File create कर 
+extracted ->Step 1: File create  
 nano log.sh 
- Step 2: Code paste कर 
+ Step 2: Code paste 
 #!/bin/bash 
  
 logfile="sample.log" 
@@ -117,9 +124,9 @@ echo "----------------------"
  
 echo "Error Messages:" 
 grep -i "error" "$logfile" 
- Step 3: Executable बनव 
+ Step 3: Executable 
 chmod +x log.sh 
- Step 4: Sample log file create कर (important) 
+ Step 4: Sample log file create  (important) 
 nano sample.log 
 data paste कर: 
 2026-04-13 10:20:30 ERROR Connection failed from 192.168.1.1 
@@ -128,10 +135,8 @@ data paste कर:
  Step 5: Script run कर 
 ./log.sh 
  
- 
- 
- 
- 
+ -----------------------------------------------------------------------------------------------
+  
 7) Write a shell script that defines a function to check if a number is prime or not. The script should 
 prompt the user for a number and call the function to display whether the number is prime ->Step 1: file create 
 nano prime.sh 
@@ -163,6 +168,7 @@ i
 Step 3: 
 chmod +x prime.sh 
 ./prime.sh 
+ --------------------------------------------------------------------------------------------------------------------------------
 8) Write a script to monitor the size of a directory. If the directory exceeds a specified size (e.g., 500 
 MB), append a warning message to /home/$USERNAME/$filename. Include the size and time of 
 occurrence in the message. -> 
@@ -183,6 +189,8 @@ i
 Step 3: 
 chmod +x dircheck.sh 
 ./dircheck.sh 
+
+ ----------------------------------------------------------------------------------------------------------------------------
 9) Given a CSV file with columns for Name, Department, Salary, and Join Date, write a script using 
 awk to: ● Calculate the average salary of employees in each department. ● Identify employees who 
 have been with the company for more than 5 years. -> 
