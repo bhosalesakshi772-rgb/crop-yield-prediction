@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Crop Yield Prediction</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#f5f5f5;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#2c3e50;
+padding:15px 40px;
+}
+
+.logo{
+color:white;
+font-size:22px;
+font-weight:bold;
+}
+
+.nav-links{
+display:flex;
+align-items:center;
+}
+
+.nav-links a{
+color:white;
+margin-left:20px;
+text-decoration:none;
+font-size:16px;
+}
+
+.nav-links a:hover{
+color:#1abc9c;
+}
+
+/* PROFILE ICON FIX */
+
+.profile{
+width:35px;
+height:35px;
+border-radius:50%;
+object-fit:cover;
+margin-left:20px;
+border:2px solid white;
+cursor:pointer;
+}
+
+/* HERO SECTION */
+
+.hero{
+height:500px;
+background-image:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef");
+background-size:cover;
+background-position:center;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+color:white;
+}
+
+.hero h1{
+font-size:50px;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:18px;
+margin-bottom:30px;
+}
+
+.btn{
+padding:12px 25px;
+background:#1abc9c;
+color:white;
+text-decoration:none;
+border-radius:5px;
+font-size:18px;
+}
+
+.btn:hover{
+background:#16a085;
+}
+
+/* FEATURES */
+
+.features{
+display:flex;
+justify-content:center;
+gap:30px;
+padding:60px;
+}
+
+.card{
+background:white;
+padding:30px;
+width:250px;
+text-align:center;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+/* FOOTER */
+
+.footer{
+background:#2c3e50;
+color:white;
+text-align:center;
+padding:20px;
+margin-top:40px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="logo">🌾 CropAI</div>
+
+<div class="nav-links">
+
+<a href="/">Home</a>
+<a href="/predict">Predict</a>
+<a href="/user-dashboard">Dashboard</a>
+
+{% if session.get("user") %}
+
+<img src="/static/profiles/{{session['photo']}}" class="profile">
+
+<a href="/logout">Logout</a>
+
+{% else %}
+
+<a href="/login">Login</a>
+<a href="/register">Register</a>
+
+{% endif %}
+
+</div>
+</div>
+
+<!-- HERO -->
+
+<div class="hero">
+
+<div>
+
+<h1>Crop Yield Prediction System</h1>
+
+<p>AI based agriculture prediction system for farmers</p>
+
+<a class="btn" href="/predict">Start Prediction</a>
+
+</div>
+
+</div>
+
+<!-- FEATURES -->
+
+<div class="features">
+
+<div class="card">
+
+<h3>🌱 Smart Prediction</h3>
+
+<p>Predict crop yield using machine learning.</p>
+
+</div>
+
+<div class="card">
+
+<h3>📊 Data Analytics</h3>
+
+<p>Analyze crop data with interactive dashboard.</p>
+
+</div>
+
+<div class="card">
+
+<h3>👨‍🌾 Farmer Friendly</h3>
+
+<p>Simple system designed for farmers.</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+<p>© 2026 Crop Yield Prediction | AI Agriculture System</p>
+
+</div>
+
+</body>
+</html>

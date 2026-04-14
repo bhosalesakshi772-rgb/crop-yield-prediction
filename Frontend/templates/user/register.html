@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Register</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:linear-gradient(to right,#43e97b,#38f9d7);
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.box{
+background:white;
+padding:30px;
+border-radius:10px;
+width:350px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+h2{
+text-align:center;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+label{
+font-size:14px;
+}
+
+button{
+width:100%;
+padding:10px;
+background:#43e97b;
+border:none;
+color:white;
+font-size:16px;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#2ecc71;
+}
+
+.login-link{
+text-align:center;
+margin-top:10px;
+}
+
+.login-link a{
+text-decoration:none;
+color:#2ecc71;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>Create Account</h2>
+
+<form method="POST" enctype="multipart/form-data">
+
+<input type="text" name="name" placeholder="Full Name" required>
+
+<input type="email" name="email" placeholder="Email" required>
+
+<input type="password" name="password" placeholder="Password" required>
+
+<label>Upload Profile Photo</label>
+<input type="file" name="photo" required>
+
+<button type="submit">Register</button>
+
+</form>
+
+<div class="login-link">
+Already have account? <a href="/login">Login</a>
+</div>
+
+</div>
+
+</body>
+</html>

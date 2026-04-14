@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prediction Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+margin:0;
+font-family:Poppins, Arial;
+background:linear-gradient(120deg,#1d4350,#a43931);
+color:white;
+}
+
+/* HEADER */
+
+.header{
+text-align:center;
+padding:40px;
+font-size:35px;
+font-weight:bold;
+}
+
+/* CONTAINER */
+
+.container{
+width:90%;
+margin:auto;
+}
+
+/* CARDS */
+
+.cards{
+display:flex;
+justify-content:space-around;
+margin-bottom:40px;
+flex-wrap:wrap;
+}
+
+.card{
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(10px);
+padding:25px;
+border-radius:12px;
+width:220px;
+text-align:center;
+margin:10px;
+box-shadow:0 0 15px rgba(0,0,0,0.3);
+}
+
+.card h2{
+margin:0;
+font-size:30px;
+color:#00e676;
+}
+
+/* CHART */
+
+.chart-box{
+background:white;
+padding:30px;
+border-radius:12px;
+color:black;
+width:80%;
+margin:auto;
+}
+
+/* navbar */
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#2c3e50;
+padding:15px 40px;
+}
+
+.logo{
+color:white;
+font-size:22px;
+font-weight:bold;
+}
+
+.nav-links a{
+color:white;
+margin-left:20px;
+text-decoration:none;
+font-size:16px;
+}
+
+.nav-links a:hover{
+color:#1abc9c;
+}
+
+.profile{
+width:35px;
+height:35px;
+border-radius:50%;
+margin-left:15px;
+vertical-align:middle;
+border:2px solid white;
+}
+/* TABLE */
+
+.table-box{
+margin-top:40px;
+background:white;
+color:black;
+border-radius:12px;
+padding:20px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:10px;
+border-bottom:1px solid #ccc;
+text-align:center;
+}
+
+th{
+background:#2e7d32;
+color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+📊 Crop Yield Prediction Dashboard
+</div>
+
+<div class="container">
+
+<!-- SUMMARY CARDS -->
+
+<div class="cards">
+
+<div class="card">
+<h3>Total Predictions</h3>
+<h2>{{values|length}}</h2>
+</div>
+
+<div class="card">
+<h3>Crops Analysed</h3>
+<h2>{{labels|length}}</h2>
+</div>
+
+<div class="card">
+<h3>Model</h3>
+<h2>Random Forest</h2>
+</div>
+
+</div>
+
+<!-- CHART -->
+
+<div class="chart-box">
+
+<canvas id="chart"></canvas>
+
+</div>
+
+
+<div class="navbar">
+
+<div class="logo">🌾 CropAI</div>
+
+<div class="nav-links">
+
+<a href="/">Home</a>
+<a href="/predict">Predict</a>
+<a href="/dashboard">Dashboard</a>
+
+{% if session.get("user") %}
+
+<img src="/static/profiles/{{session['photo']}}" class="profile">
+
+<a href="/logout">Logout</a>
+
+{% else %}
+
+<a href="/login">Login</a>
+<a href="/register">Register</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-box">
+
+<h2>Prediction History</h2>
+
+<table>
+
+<tr>
+<th>Crop</th>
+<th>Predicted Yield</th>
+</tr>
+
+{% for i in range(labels|length) %}
+
+<tr>
+<td>{{labels[i]}}</td>
+<td>{{values[i]}}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+var ctx=document.getElementById("chart");
+
+new Chart(ctx,{
+type:"line",
+
+data:{
+labels:{{labels|safe}},
+datasets:[{
+
+label:"Predicted Yield",
+
+data:{{values|safe}},
+
+borderWidth:3,
+fill:false
+
+}]
+
+},
+
+options:{
+responsive:true
+}
+
+});
+
+</script>
+
+</body>
+</html>

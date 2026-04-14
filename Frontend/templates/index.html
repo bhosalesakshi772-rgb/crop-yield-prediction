@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Crop Yield Prediction</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+margin:0;
+font-family:Poppins;
+background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),
+url("https://images.unsplash.com/photo-1500382017468-9049fed747ef");
+background-size:cover;
+background-position:center;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+/* NAVBAR */
+
+.navbar{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#2c3e50;
+padding:15px 40px;
+box-sizing:border-box;
+z-index:1000;
+}
+
+.logo{
+color:white;
+font-size:22px;
+font-weight:bold;
+}
+
+.nav-links{
+display:flex;
+align-items:center;
+}
+
+.nav-links a{
+color:white;
+margin-left:20px;
+text-decoration:none;
+font-size:16px;
+}
+
+.nav-links a:hover{
+color:#1abc9c;
+}
+
+/* PROFILE ICON */
+
+.profile{
+width:35px;
+height:35px;
+border-radius:50%;
+object-fit:cover;
+margin-left:15px;
+border:2px solid white;
+cursor:pointer;
+}
+
+/* PREDICTION BOX */
+
+.container{
+margin-top:120px;
+width:450px;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(12px);
+padding:35px;
+border-radius:15px;
+box-shadow:0 0 25px rgba(0,0,0,0.4);
+color:white;
+}
+
+h2{
+text-align:center;
+margin-bottom:20px;
+}
+
+select,input{
+width:100%;
+padding:10px;
+margin:8px 0;
+border:none;
+border-radius:6px;
+outline:none;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+background:#4caf50;
+border:none;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+color:white;
+}
+
+button:hover{
+background:#2e7d32;
+}
+
+/* RESULT */
+
+.result{
+margin-top:20px;
+background:white;
+color:black;
+padding:15px;
+border-radius:8px;
+text-align:center;
+font-weight:bold;
+}
+
+canvas{
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="logo">🌾 CropAI</div>
+
+<div class="nav-links">
+
+<a href="/">Home</a>
+<a href="/predict">Predict</a>
+<a href="/user-dashboard">Dashboard</a>
+
+{% if session.get("user") %}
+
+<img src="/static/profiles/{{session['photo']}}" class="profile">
+
+<a href="/logout">Logout</a>
+
+{% else %}
+
+<a href="/login">Login</a>
+<a href="/register">Register</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+
+<!-- MAIN CONTAINER -->
+
+<div class="container">
+
+<h2>🌾 Crop Yield Prediction</h2>
+
+<form action="/predict" method="POST">
+
+<select name="Area" required>
+<option>Select Area</option>
+
+{% for area in area_options %}
+<option value="{{area}}">{{area}}</option>
+{% endfor %}
+
+</select>
+
+
+<select name="Item" required>
+<option>Select Crop</option>
+
+{% for crop in crop_options %}
+<option value="{{crop}}">{{crop}}</option>
+{% endfor %}
+
+</select>
+
+<input type="number" name="Year" placeholder="Year">
+
+<input type="number" step="any"
+name="average_rain_fall_mm_per_year"
+placeholder="Rainfall mm/year">
+
+<input type="number" step="any"
+name="pesticides_tonnes"
+placeholder="Pesticides tonnes">
+
+<input type="number" step="any"
+name="avg_temp"
+placeholder="Temperature °C">
+
+<button type="submit">Predict Yield</button>
+
+</form>
+
+
+{% if prediction %}
+
+<div class="result">
+
+Predicted Yield: {{prediction}} hg/ha
+
+<canvas id="chart"></canvas>
+
+</div>
+
+<script>
+
+var ctx=document.getElementById('chart');
+
+new Chart(ctx,{
+type:'bar',
+data:{
+labels:["Yield"],
+datasets:[{
+label:"Predicted Yield",
+data:[{{prediction}}],
+}]
+}
+});
+
+</script>
+
+{% endif %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Dashboard</title>
+
+<style>
+
+body{
+font-family:Poppins, Arial;
+margin:0;
+background:linear-gradient(120deg,#1d4350,#a43931);
+color:white;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#2c3e50;
+padding:15px 40px;
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+color:white;
+}
+
+.nav-links{
+display:flex;
+align-items:center;
+}
+
+.nav-links a{
+color:white;
+margin-left:20px;
+text-decoration:none;
+font-size:16px;
+}
+
+.nav-links a:hover{
+color:#1abc9c;
+}
+
+.profile{
+width:35px;
+height:35px;
+border-radius:50%;
+margin-left:15px;
+border:2px solid white;
+object-fit:cover;
+}
+
+/* MAIN CONTAINER */
+
+.container{
+padding:40px;
+text-align:center;
+}
+
+/* WELCOME */
+
+.welcome{
+font-size:28px;
+margin-bottom:30px;
+}
+
+/* CARDS */
+
+.cards{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:30px;
+}
+
+.card{
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(10px);
+padding:30px;
+width:250px;
+border-radius:12px;
+text-align:center;
+box-shadow:0 0 15px rgba(0,0,0,0.3);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.card h3{
+margin-bottom:15px;
+}
+
+.card a{
+text-decoration:none;
+color:#00e676;
+font-weight:bold;
+font-size:16px;
+}
+
+/* STATS */
+
+.stats{
+display:flex;
+justify-content:center;
+gap:30px;
+margin-top:40px;
+flex-wrap:wrap;
+}
+
+.stat-box{
+background:rgba(255,255,255,0.1);
+padding:20px;
+border-radius:10px;
+width:180px;
+text-align:center;
+}
+
+.stat-box h2{
+margin:0;
+color:#00e676;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="logo">🌾 CropAI</div>
+
+<div class="nav-links">
+
+<a href="/">Home</a>
+<a href="/predict">Prediction</a>
+<a href="/user-dashboard">Dashboard</a>
+
+{% if session.get("user") %}
+
+<img src="/static/profiles/{{session['photo']}}" class="profile">
+
+<a href="/logout">Logout</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+<!-- CONTAINER -->
+
+<div class="container">
+
+<div class="welcome">
+Welcome Farmer 🌾
+</div>
+
+<!-- DASHBOARD CARDS -->
+
+<div class="cards">
+
+<div class="card">
+<h3>🌱 Crop Yield Prediction</h3>
+<p>Predict crop production using AI model</p>
+<a href="/predict">Start Prediction</a>
+</div>
+
+<div class="card">
+<h3>📊 My Predictions</h3>
+<p>View your previous predictions</p>
+<!---<a href="/dashboard">View History</a>-->
+</div>
+
+<div class="card">
+<h3>👤 My Profile</h3>
+<p>View and manage your account</p>
+<a href="#">Open Profile</a>
+</div>
+
+</div>
+
+<!-- QUICK STATS -->
+
+<div class="stats">
+
+<div class="stat-box">
+<h2>12</h2>
+<p>Total Predictions</p>
+</div>
+
+<div class="stat-box">
+<h2>5</h2>
+<p>Crops Tested</p>
+</div>
+
+<div class="stat-box">
+<h2>AI</h2>
+<p>Model Type</p>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
