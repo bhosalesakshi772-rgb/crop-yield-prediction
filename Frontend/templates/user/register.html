@@ -5,7 +5,7 @@ from it, and then ini ate a container.
 # Step 1: Project folder create 
 mkdir mynodeapp 
 cd mynodeapp 
-
+---------------------------------
 # Step 2: server.js file create 
 nano server.js 
 # (code paste ) 
@@ -13,7 +13,7 @@ const h p = require('h p');
 h p.createServer((req,res)=>{ 
 res.end("Hello Docker"); 
 }).listen(3000); 
-
+--------------------------------------
 # Step 3: package.json file create
 nano package.json 
 # (code paste ) 
@@ -22,7 +22,7 @@ nano package.json
 "version": "1.0.0", 
 "main": "server.js" 
 } 
-
+--------------------------------------
 # Step 4: Dockerfile create  
 nano Dockerfile 
 # (code paste ) 
@@ -31,7 +31,7 @@ WORKDIR /app
 COPY . . 
 EXPOSE 3000 
 CMD ["node","server.js"] 
-
+-----------------------------------------
 # Step 5: Docker image build  
 docker build -t my-node-app . 
 
@@ -48,12 +48,13 @@ docker login
 docker push sakshibhosale468/node-h p-server:1.0 
 
 
-
+----------------------------------------------------------------------------------------------------------------------------------------------------------
 Assignment 7
 Set A  
 1) Mongo-Express Application (Manual using Docker commands) A. Run a container using the 
 Mongo image, ensuring to set suitable environment variables, map ports, assign container 
 names, and connect to a custom network. Command: 
+
 1)first check docker version 
 docker –version 
 
@@ -78,7 +79,7 @@ ME_CONFIG_MONGODB_ADMINUSERNAME=admin -e
 ME_CONFIG_MONGODB_ADMINPASSWORD=admin123 -e 
 ME_CONFIG_MONGODB_SERVER=mongo-container mongo-express 
 2)docker ps 
-
+--------------------------------------------------------------------------------------------------------
 SET C 
 2) Mongo-Express Application (Using docker-compose.yml) A. Run a container using the Mongo 
 image, ensuring to set suitable environment variables, map ports, assign container names, 
@@ -91,7 +92,7 @@ browser, particularly accessing the mongo-express application. Docker-compose.ym
 
 file create: docker-compose.yml 
 Notepad docker-compose.yml 
- 
+(sudo/nano)
 version: '3'
 
 services:
